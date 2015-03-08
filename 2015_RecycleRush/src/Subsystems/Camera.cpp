@@ -22,16 +22,18 @@ void Camera::InitDefaultCommand()
 
 void Camera::SetPan(double panValue)
 {
+	// Add the current value of the pan servo to the joystick input
 	pan->Set(pan->Get() + panValue);
 }
 
 void Camera::SetTilt(double tiltValue)
 {
+	// Add the current value of the tilt servo to the joystick input
 	tilt->Set(tilt->Get() + tiltValue);
 }
 void Camera::ResetCameraLoc()
 {
-
+	// Set the pan and tilt servos back to 0.0, may need changed based on where driver wants reset to be
 	pan->Set(0.0);
 	tilt->Set(0.0);
 

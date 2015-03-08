@@ -42,10 +42,12 @@ void Lift::Stop()
 
 bool Lift::IsAtTop()
 {
+	// limit switch is NC
 	return liftMotor->IsFwdLimitSwitchClosed();
 }
 
 bool Lift::IsAtBottom()
 {
+	// limit switch is NC
 	return liftMotor->IsRevLimitSwitchClosed();
 }

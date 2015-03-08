@@ -42,8 +42,6 @@ Chassis::Chassis() : Subsystem("Chassis")
 void Chassis::InitDefaultCommand()
 {
 	// Set the default command for a subsystem here.
-	//SetDefaultCommand(new MySpecialCommand());
-//	SetDefaultCommand(new joystickDrive());
 	SetDefaultCommand(new ChassisJoystickDrive());
 
 }
@@ -53,9 +51,8 @@ void Chassis::InitDefaultCommand()
 
 void Chassis::joystickDrive(Joystick* stick)
 {
-//myDrive.MecanumDrive_Cartesian(driverController.GetX(), driverController.GetY(), driverController.GetZ());
+	// Replace the last parameter with the gyro value if is it installed
 	drive->MecanumDrive_Cartesian(stick->GetX(), stick->GetY(), stick->GetZ(), 0.0);
-			//OI*stick->GetX(), *stick->GetY(), *stick->GetZ(), 0.0);
 
 }
 

@@ -32,10 +32,15 @@ Joystick* OI::getManipulatorJoystick()
 	return manipulatorController;
 }
 
+/*
+ *   getClampSpeed()
+ *   Combines the output of the left and right trigger into a single speed for the clamp motor
+ */
 double OI::getClampSpeed()
 {
 	return manipulatorController->GetRawAxis(RIGHT_TRIGGER) - manipulatorController->GetRawAxis(LEFT_TRIGGER);
 }
+
 
 double OI::getLiftSpeed()
 {

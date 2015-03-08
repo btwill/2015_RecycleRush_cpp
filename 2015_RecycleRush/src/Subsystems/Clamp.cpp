@@ -8,8 +8,8 @@ Clamp::Clamp() :
 {
 	clampMotor = new CANTalon(0);
 	clampEncoder = new Encoder(1, 2, false, Encoder::k4X);
-	hasTote = false;
-	atSpeed = false;
+	hasTote = false;			// Has the clamp detected it has a tote
+	atSpeed = false;			// Is the motor up to speed for tote detection
 
 }
 
@@ -25,7 +25,8 @@ void Clamp::InitDefaultCommand()
 
 void Clamp::SetSpeed(double speed)
 {
-	if (speed < -0.1)
+	// If the clamp opens it is assumed the tote has been released
+	if (speed < 0.1)
 		hasTote = false;
 
 	clampMotor->Set(speed);
@@ -33,6 +34,7 @@ void Clamp::SetSpeed(double speed)
 
 void Clamp::Open(double speed)
 {
+	// If the clamp opens it is assumed the tote has been released
 	hasTote = false;
 	clampMotor->Set(speed);
 }
@@ -54,16 +56,24 @@ Encoder* Clamp::GetEncoder()
 
 bool Clamp::IsOpen()
 {
+	// limit switch is NC
 	return clampMotor->IsFwdLimitSwitchClosed();
 }
 
 bool Clamp::IsClosed()
 {
+	// limit switch is NC
 	return clampMotor->IsRevLimitSwitchClosed();
 }
 
+
+/*
+ * IsLoaded() will check to see the motor has reached speed, and has slowed down due to an obstruction
+ *
+ */
 bool Clamp::IsLoaded(double rate)
 {
+	// reset at speed for the next close command
 	if(((clampEncoder->GetRate() < rate) && (atSpeed == true)) || (hasTote))
 	{
 		atSpeed = false;
@@ -90,6 +100,10 @@ bool Clamp::IsAtSpeed()
 	return atSpeed;
 }
 
+/*
+ * IsAtSpeed(double) will check to see if the motor has reached a certain speed
+ *
+ */
 
 bool Clamp::IsAtSpeed(double rate)
 {
